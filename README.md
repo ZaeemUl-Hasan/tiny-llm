@@ -29,7 +29,7 @@ pip install -r requirements.txt
 ```bash
 python prepare.py           # download data, build tokenizer
 python train.py --quick     # ~10 seconds: tiny model, checks everything works
-python train.py             # full run: ~10.8M parameters, roughly 10-20 min on an Apple M-series Mac
+python train.py             # full run: ~10.8M parameters, 3,000 steps, about 45 min on an M4 Mac
 python sample.py --prompt "ROMEO:" --tokens 500
 ```
 
@@ -40,8 +40,8 @@ Training uses the Apple Silicon GPU (`mps`) or an NVIDIA GPU (`cuda`) when one i
 - **loss** measures how surprised the model is by the real next character. Lower is better.
 - A model that guesses at random scores about **4.17** (that's ln 65, for 65 possible characters).
 - The quick run reaches about **2.0**: it has learned words, spacing and the play format, but spells badly.
-- The full run should reach about **1.5**: real-looking words and character names in Shakespearean style.
-- If **val loss** starts rising while **train loss** keeps falling, the model is memorizing the training text instead of learning patterns (overfitting).
+- The full run reaches about **1.48**: real words, real character names and Shakespearean rhythm, though the sentences don't make sense.
+- If **val loss** starts rising while **train loss** keeps falling, the model is memorizing the training text instead of learning patterns (overfitting). A 5,000-step run showed this: val loss bottomed out at 1.47 around step 4,250, then rose to 1.49 while train loss kept falling to 0.97. That's why the default stops at 3,000 steps.
 
 ## Ideas to try next
 

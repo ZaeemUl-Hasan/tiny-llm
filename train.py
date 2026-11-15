@@ -9,7 +9,7 @@ The training loop, in plain words:
   4. The optimizer nudges every parameter a tiny bit in that direction.
   5. Repeat a few thousand times.
 
-Run:  python train.py            (full run, roughly 10-20 minutes on an M-series Mac)
+Run:  python train.py            (full run, about 45 minutes on an M4 Mac)
       python train.py --quick    (tiny model, about a minute, to check everything works)
 """
 
@@ -47,7 +47,8 @@ def main():
         batch_size, max_iters, eval_interval, learning_rate = 32, 500, 100, 1e-3
     else:
         config = GPTConfig(block_size=256, n_layer=6, n_head=6, n_embd=384, dropout=0.2)
-        batch_size, max_iters, eval_interval, learning_rate = 64, 5000, 250, 3e-4
+        # val loss stops improving around step 3000; training longer only overfits
+        batch_size, max_iters, eval_interval, learning_rate = 64, 3000, 250, 3e-4
     if args.max_iters is not None:
         max_iters = args.max_iters
     eval_iters = 50
